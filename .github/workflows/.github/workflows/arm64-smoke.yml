@@ -1,0 +1,16 @@
+name: Check ARM64 Host
+
+on:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: [self-hosted, linux, ARM64]
+    steps:
+      - name: Inspect runner
+        run: |
+          uname -a
+          uname -m
+          grep -E '^(Name|Pid|PPid|TracerPid|Seccomp|Seccomp_filters):' /proc/self/status
+          readlink /proc/self/exe || true
+          grep -E 'libproot|qemu-aarch64|libqemu' /proc/self/maps || true
